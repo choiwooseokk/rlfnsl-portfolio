@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <header style={{ padding: 16, fontSize: 20, fontWeight: 700 }}>
-        최우석 포트폴리오
+        최우석 포트폴리오r
       </header>
 
       <div className="App">
