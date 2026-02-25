@@ -15,17 +15,17 @@ const EXPERIENCE = [
     company: "SAMG",
     period: "2023.06 ~ 2024.06",
     role: "개발팀",
-    bullets: ["국가지원사업 프로젝트 메인 개발", "이모션티니핑 서브 개발"],
+    bullets: ["국가지원사업 프로젝트 메인 개발", "이모션티니핑 서브 개발", "발권 키오스크 개발"],
   },
   {
     company: "하트버스",
     period: "2022.05 ~ 2023.04",
     role: "개발팀",
-    bullets: ["프로젝트 개발 및 최적화", "서버 동기화 관련 업무 수행"],
+    bullets: ["프로젝트 개발 및 최적화", "서버 동기화 관련 업무 수행", "포토 키오스크 개발"],
   },
   {
     company: "매쓰마스터",
-    period: "2020.12 ~ 2022.02",
+    period: "2020.12 ~ 2022.03",
     role: "개발팀",
     bullets: ["프로그램 안정화", "스테이지 제작 및 콘텐츠 기획", "팀 내 교육 및 업무 지원"],
   },
@@ -33,7 +33,7 @@ const EXPERIENCE = [
 
 export default function Experience() {
   return (
-    <Section id="experience" title="경력" subtitle="핵심만 짧게 정리">
+    <Section id="experience" title="경력" subtitle="회사에서 경험만 경력들입니다.">
       <div className="timeline">
         {EXPERIENCE.map((e) => (
           <div key={`${e.company}-${e.period}`} className="timelineItem">

@@ -9,7 +9,7 @@ const SKILLS = [
 
 export default function Skills() {
   return (
-    <Section id="skills" title="기술" subtitle="실무에서 자주 다룬 스택">
+    <Section id="skills" title="기술" subtitle="실무에서 자주 다룬 기술들 입니다.">
       <div className="grid2">
         {SKILLS.map((s) => (
           <div key={s.title} className="card">

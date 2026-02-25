@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 type Props = {
   id: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   children: ReactNode;
 };
@@ -10,11 +10,11 @@ type Props = {
 export default function Section({ id, title, subtitle, children }: Props) {
   return (
     <section id={id} className="section">
-      <div className="sectionHeader">
-        <h2 className="sectionTitle">{title}</h2>
-        {subtitle ? <p className="sectionSubtitle">{subtitle}</p> : null}
+      <div className="container sectionInner">
+        {title ? <div className="sectionTitle">{title}</div> : null}
+        {subtitle ? <div className="sectionSubtitle">{subtitle}</div> : null}
+        {children}
       </div>
-      <div className="sectionBody">{children}</div>
     </section>
   );
 }
