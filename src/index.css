@@ -643,13 +643,21 @@ a {
 
 .detailThumbWrap {
   margin-top: 12px;
+  height: clamp(220px, 32vh, 420px);
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .detailThumb {
   width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  height: 100%;
   display: block;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 0;
+  border: 0;
 }
 
 .detailGrid {
