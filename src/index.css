@@ -135,6 +135,16 @@ a {
   font-size: 13px;
 }
 
+.langSelect option {
+  background: #ffffff;
+  color: #111111;
+}
+
+.langSelect optgroup {
+  background: #ffffff;
+  color: #111111;
+}
+
 .section {
   padding: 64px 0;
 }
@@ -144,7 +154,64 @@ a {
   flex-direction: column;
   gap: 18px;
 }
+.projectThumb {
+  aspect-ratio: 4 / 3;
+}
+.projectHero {
+  width: 100%;
+  height: clamp(220px, 40vh, 520px);
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
 
+.projectHero {
+  width: 100%;
+  height: clamp(180px, 28vh, 360px);
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.projectHeroImg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
+.detailTabs {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detailTabBtn {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.86);
+  padding: 10px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.detailTabBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.detailTabBtn.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.detailTabBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
 .sectionTitle {
   font-size: 14px;
   letter-spacing: 0.2px;
@@ -317,20 +384,18 @@ a {
 }
 
 .projectThumb {
-  width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
   aspect-ratio: 16 / 9;
-  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.projectThumbImg {
+.projectThumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: contain;
+  object-position: center;
 }
 
 .projectTop {

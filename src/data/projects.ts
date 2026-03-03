@@ -19,7 +19,11 @@ export type Project = {
   period?: string;
 
   tags?: string[];
+
+  mediaFolder?: string;
+
   imageSrc?: string;
+  screenshots?: string[];
 
   teamKey?: string;
   environment?: string[];
@@ -29,7 +33,6 @@ export type Project = {
 
   links?: ProjectLink[];
   videos?: ProjectVideo[];
-  screenshots?: string[];
 
   sourceCode?: {
     enabled: boolean;
@@ -41,48 +44,76 @@ export type Project = {
   };
 };
 
-export const PROJECTS: Project[] = [
-  {
-    id: "memory-convenience-store",
-    titleKey: "project.memory-convenience-store.title",
-    oneLineKey: "project.memory-convenience-store.oneLine",
-    category: "게임",
-    period: "2020.02 ~ 2020.05",
-    tags: ["Unity", "Mobile", "Puzzle", "Touch", "PlayerPrefs", "AdMob"],
-    imageSrc: "/assets/projects/memory/thumb.jpg",
+type ProjectModule = { default: Project };
+type UrlModule = { default: string };
 
-    teamKey: "project.memory-convenience-store.team",
-    environment: ["Unity", "Visual Studio"],
+const PRIVATE_PROJECT_MODULES = import.meta.glob<ProjectModule>("./portfolio/*.ts", { eager: true });
 
-    roleKeys: [
-      "project.memory-convenience-store.roles.0",
-      "project.memory-convenience-store.roles.1",
-    ],
-    highlightKeys: [
-      "project.memory-convenience-store.highlights.0",
-      "project.memory-convenience-store.highlights.1",
-      "project.memory-convenience-store.highlights.2",
-      "project.memory-convenience-store.highlights.3",
-      "project.memory-convenience-store.highlights.4",
-    ],
+const PRIVATE_THUMB_MODULES = import.meta.glob<UrlModule>(
+  "../assets/projects/**/thumb.{png,jpg,jpeg,webp}",
+  { eager: true, query: "?url" }
+);
 
-    links: [
-      { labelKey: "link.playstore", url: "https://example.com/store" }
-    ],
+const PRIVATE_SHOT_MODULES = import.meta.glob<UrlModule>(
+  "../assets/projects/**/shots/*.{png,jpg,jpeg,webp}",
+  { eager: true, query: "?url" }
+);
 
-    videos: [
-      { kind: "external", labelKey: "link.youtube", url: "https://youtube.com/..." }
-    ],
+function PrivateGetFolderFromThumbPath(_path: string) {
+  const _match = _path.match(/\/assets\/projects\/([^/]+)\/thumb\.(png|jpg|jpeg|webp)$/);
+  return _match ? _match[1] : "";
+}
 
-    screenshots: [
-      "/assets/projects/memory/shot1.jpg",
-      "/assets/projects/memory/shot2.jpg",
-    ],
+function PrivateGetFolderFromShotPath(_path: string) {
+  const _match = _path.match(/\/assets\/projects\/([^/]+)\/shots\//);
+  return _match ? _match[1] : "";
+}
 
-    sourceCode: { enabled: false, blocks: [] },
-  },
-];
+function PrivateBuildThumbMap() {
+  const _map: Record<string, string> = {};
+  for (const [_path, _mod] of Object.entries(PRIVATE_THUMB_MODULES)) {
+    const _folder = PrivateGetFolderFromThumbPath(_path);
+    if (_folder) _map[_folder] = _mod.default;
+  }
+  return _map;
+}
+
+function PrivateBuildShotsMap() {
+  const _map: Record<string, string[]> = {};
+  for (const [_path, _mod] of Object.entries(PRIVATE_SHOT_MODULES)) {
+    const _folder = PrivateGetFolderFromShotPath(_path);
+    if (!_folder) continue;
+    if (!_map[_folder]) _map[_folder] = [];
+    _map[_folder].push(_mod.default);
+  }
+
+  for (const _key of Object.keys(_map)) {
+    _map[_key].sort((a, b) => a.localeCompare(b));
+  }
+
+  return _map;
+}
+
+const PRIVATE_THUMBS_BY_FOLDER = PrivateBuildThumbMap();
+const PRIVATE_SHOTS_BY_FOLDER = PrivateBuildShotsMap();
+
+function PrivateNormalizeProject(_project: Project): Project {
+  const _folder = _project.mediaFolder ?? _project.id;
+
+  const _imageSrc = _project.imageSrc ?? PRIVATE_THUMBS_BY_FOLDER[_folder];
+  const _screenshots = _project.screenshots ?? PRIVATE_SHOTS_BY_FOLDER[_folder];
+
+  return {
+    ..._project,
+    imageSrc: _imageSrc,
+    screenshots: _screenshots,
+  };
+}
+
+export const PROJECTS: Project[] = Object.values(PRIVATE_PROJECT_MODULES)
+  .map((_m) => PrivateNormalizeProject(_m.default))
+  .sort((_a, _b) => _a.id.localeCompare(_b.id));
 
 export function FindProjectById(_id: string): Project | undefined {
-  return PROJECTS.find((p) => p.id === _id);
+  return PROJECTS.find((_p) => _p.id === _id);
 }

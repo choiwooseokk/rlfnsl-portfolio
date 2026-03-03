@@ -9,6 +9,8 @@ function GetCategoryKey(PublicCategory: ProjectCategory) {
   return "category.content";
 }
 
+type DetailTab = "info" | "screens" | "code";
+
 export default function ProjectDetailPage() {
   const { t } = useTranslation();
   const PublicParams = useParams();
@@ -17,7 +19,7 @@ export default function ProjectDetailPage() {
     return FindProjectById(PublicParams.id ?? "");
   }, [PublicParams.id]);
 
-  const [PublicShowSource, SetPublicShowSource] = useState(false);
+  const [PublicTab, SetPublicTab] = useState<DetailTab>("info");
 
   if (!PublicProject) {
     return (
@@ -46,6 +48,12 @@ export default function ProjectDetailPage() {
   const PublicHasSource =
     PublicProject.sourceCode?.enabled === true && (PublicProject.sourceCode.blocks?.length ?? 0) > 0;
 
+  const PrivateClickTab = (_tab: DetailTab) => {
+    if (_tab === "screens" && !PublicHasScreens) return;
+    if (_tab === "code" && !PublicHasSource) return;
+    SetPublicTab(_tab);
+  };
+
   return (
     <main className="main">
       <div className="container detailPage">
@@ -67,64 +75,142 @@ export default function ProjectDetailPage() {
               <img className="detailThumb" src={PublicProject.imageSrc} alt={t(PublicProject.titleKey)} />
             </div>
           ) : null}
+
+          <div className="detailTabs" role="tablist" aria-label={t("detail.tabs", { defaultValue: "상세 탭" })}>
+            <button
+              type="button"
+              className={`detailTabBtn ${PublicTab === "info" ? "active" : ""}`}
+              onClick={() => PrivateClickTab("info")}
+              role="tab"
+              aria-selected={PublicTab === "info"}
+            >
+              {t("detail.info", { defaultValue: "정보" })}
+            </button>
+
+            <button
+              type="button"
+              className={`detailTabBtn ${PublicTab === "screens" ? "active" : ""}`}
+              onClick={() => PrivateClickTab("screens")}
+              role="tab"
+              aria-selected={PublicTab === "screens"}
+              disabled={!PublicHasScreens}
+            >
+              {t("detail.screenshots", { defaultValue: "스크린샷" })}
+            </button>
+
+            <button
+              type="button"
+              className={`detailTabBtn ${PublicTab === "code" ? "active" : ""}`}
+              onClick={() => PrivateClickTab("code")}
+              role="tab"
+              aria-selected={PublicTab === "code"}
+              disabled={!PublicHasSource}
+            >
+              {t("detail.code", { defaultValue: "코드" })}
+            </button>
+          </div>
         </div>
 
         <div className="detailGrid">
-          {PublicHasInfo ? (
-            <section className="detailCard">
-              <h2 className="detailH2">{t("detail.info")}</h2>
+          {PublicTab === "info" ? (
+            <>
+              {PublicHasInfo ? (
+                <section className="detailCard">
+                  <h2 className="detailH2">{t("detail.info")}</h2>
 
-              {PublicHasTeam ? (
-                <div className="detailInfoRow">
-                  <div className="detailInfoLabel">{t("detail.team")}</div>
-                  <div className="detailInfoValue">{t(PublicProject.teamKey as string)}</div>
-                </div>
+                  {PublicHasTeam ? (
+                    <div className="detailInfoRow">
+                      <div className="detailInfoLabel">{t("detail.team")}</div>
+                      <div className="detailInfoValue">{t(PublicProject.teamKey as string)}</div>
+                    </div>
+                  ) : null}
+
+                  {PublicHasEnv ? (
+                    <div className="detailInfoRow">
+                      <div className="detailInfoLabel">{t("detail.env")}</div>
+                      <div className="detailInfoValue">{PublicProject.environment!.join(", ")}</div>
+                    </div>
+                  ) : null}
+
+                  {PublicHasTags ? (
+                    <div className="detailTags">
+                      {PublicProject.tags!.map((tag) => (
+                        <span key={tag} className="tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </section>
               ) : null}
 
-              {PublicHasEnv ? (
-                <div className="detailInfoRow">
-                  <div className="detailInfoLabel">{t("detail.env")}</div>
-                  <div className="detailInfoValue">{PublicProject.environment!.join(", ")}</div>
-                </div>
+              {PublicHasRoles ? (
+                <section className="detailCard">
+                  <h2 className="detailH2">{t("detail.roles")}</h2>
+                  <ul className="detailList">
+                    {PublicProject.roleKeys!.map((k) => (
+                      <li key={k}>{t(k)}</li>
+                    ))}
+                  </ul>
+                </section>
               ) : null}
 
-              {PublicHasTags ? (
-                <div className="detailTags">
-                  {PublicProject.tags!.map((tag) => (
-                    <span key={tag} className="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              {PublicHasHighlights ? (
+                <section className="detailCard">
+                  <h2 className="detailH2">{t("detail.highlights")}</h2>
+                  <ul className="detailList">
+                    {PublicProject.highlightKeys!.map((k) => (
+                      <li key={k}>{t(k)}</li>
+                    ))}
+                  </ul>
+                </section>
               ) : null}
-            </section>
+
+              {PublicHasLinks ? (
+                <section className="detailCard">
+                  <h2 className="detailH2">{t("detail.links")}</h2>
+                  <div className="detailLinks">
+                    {PublicProject.links!.map((l) => (
+                      <a key={l.url} className="detailLinkBtn" href={l.url} target="_blank" rel="noreferrer">
+                        {t(l.labelKey, { defaultValue: l.labelKey })}
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {PublicHasVideos ? (
+                <section className="detailCard">
+                  <h2 className="detailH2">{t("detail.videos")}</h2>
+
+                  <div className="detailLinks">
+                    {PublicProject.videos!.map((v) => {
+                      if (v.kind === "external") {
+                        return (
+                          <a key={v.url} className="detailLinkBtn" href={v.url} target="_blank" rel="noreferrer">
+                            {t(v.labelKey, { defaultValue: v.labelKey })}
+                          </a>
+                        );
+                      }
+
+                      return (
+                        <div key={v.src} className="detailVideo">
+                          <div className="detailVideoTitle">{t(v.labelKey, { defaultValue: v.labelKey })}</div>
+                          <video className="detailVideoPlayer" controls playsInline preload="metadata" poster={v.poster}>
+                            <source src={v.src} />
+                          </video>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              ) : null}
+            </>
           ) : null}
 
-          {PublicHasRoles ? (
-            <section className="detailCard">
-              <h2 className="detailH2">{t("detail.roles")}</h2>
-              <ul className="detailList">
-                {PublicProject.roleKeys!.map((k) => (
-                  <li key={k}>{t(k)}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {PublicHasHighlights ? (
-            <section className="detailCard">
-              <h2 className="detailH2">{t("detail.highlights")}</h2>
-              <ul className="detailList">
-                {PublicProject.highlightKeys!.map((k) => (
-                  <li key={k}>{t(k)}</li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {PublicHasScreens ? (
+          {PublicTab === "screens" && PublicHasScreens ? (
             <section className="detailCard detailCardFull">
-              <h2 className="detailH2">{t("detail.screenshots")}</h2>
+              <h2 className="detailH2">{t("detail.screenshots", { defaultValue: "스크린샷" })}</h2>
               <div className="detailShots">
                 {PublicProject.screenshots!.map((s) => (
                   <img key={s} className="detailShot" src={s} alt="screenshot" />
@@ -133,71 +219,20 @@ export default function ProjectDetailPage() {
             </section>
           ) : null}
 
-          {PublicHasLinks ? (
-            <section className="detailCard">
-              <h2 className="detailH2">{t("detail.links")}</h2>
-              <div className="detailLinks">
-                {PublicProject.links!.map((l) => (
-                  <a key={l.url} className="detailLinkBtn" href={l.url} target="_blank" rel="noreferrer">
-                    {t(l.labelKey, { defaultValue: l.labelKey })}
-                  </a>
+          {PublicTab === "code" && PublicHasSource ? (
+            <section className="detailCard detailCardFull">
+              <h2 className="detailH2">{t("detail.code", { defaultValue: "코드" })}</h2>
+
+              <div className="detailSourceBody">
+                {PublicProject.sourceCode!.blocks.map((b, idx) => (
+                  <div key={idx} className="codeBlock">
+                    {b.titleKey ? <div className="codeBlockTitle">{t(b.titleKey)}</div> : null}
+                    <pre className="codePre">
+                      <code className={`language-${b.language || "text"}`}>{b.code}</code>
+                    </pre>
+                  </div>
                 ))}
               </div>
-            </section>
-          ) : null}
-
-          {PublicHasVideos ? (
-            <section className="detailCard">
-              <h2 className="detailH2">{t("detail.videos")}</h2>
-
-              <div className="detailLinks">
-                {PublicProject.videos!.map((v) => {
-                  if (v.kind === "external") {
-                    return (
-                      <a key={v.url} className="detailLinkBtn" href={v.url} target="_blank" rel="noreferrer">
-                        {t(v.labelKey, { defaultValue: v.labelKey })}
-                      </a>
-                    );
-                  }
-
-                  return (
-                    <div key={v.src} className="detailVideo">
-                      <div className="detailVideoTitle">{t(v.labelKey, { defaultValue: v.labelKey })}</div>
-                      <video className="detailVideoPlayer" controls playsInline preload="metadata" poster={v.poster}>
-                        <source src={v.src} />
-                      </video>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          ) : null}
-
-          {PublicHasSource ? (
-            <section className="detailCard detailCardFull">
-              <div className="detailSourceHeader">
-                <h2 className="detailH2">{t("badge.source")}</h2>
-                <button
-                  type="button"
-                  className="detailSourceToggle"
-                  onClick={() => SetPublicShowSource((v) => !v)}
-                >
-                  {t("detail.source.toggle")}
-                </button>
-              </div>
-
-              {PublicShowSource ? (
-                <div className="detailSourceBody">
-                  {PublicProject.sourceCode!.blocks.map((b, idx) => (
-                    <div key={idx} className="codeBlock">
-                      {b.titleKey ? <div className="codeBlockTitle">{t(b.titleKey)}</div> : null}
-                      <pre className="codePre">
-                        <code className={`language-${b.language || "text"}`}>{b.code}</code>
-                      </pre>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
             </section>
           ) : null}
         </div>
