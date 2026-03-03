@@ -82,3 +82,92 @@
   opacity: 0.75;
   font-size: 13px;
 }
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.langSelectWrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.langSelect {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.langSelectChevron {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.projectBadge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  opacity: 0.95;
+}
+.projectPeriodRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.detailSourceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.detailSourceToggle {
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  cursor: pointer;
+}
+
+.codePre {
+  margin: 10px 0 0 0;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.detailVideo {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.detailVideoTitle {
+  margin-bottom: 8px;
+  opacity: 0.95;
+  font-size: 13px;
+}
+
+.detailVideoPlayer {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+}

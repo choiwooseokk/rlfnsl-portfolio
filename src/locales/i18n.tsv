@@ -1,0 +1,67 @@
+key	ko	en	ja	zhCN	zhTW
+ui.lang.label	언어 선택	Language	言語	语言	語言
+ui.lang.ko	한국어	Korean	韓国語	韩语	韓語
+ui.lang.en	English	English	英語	英语	英語
+ui.lang.ja	日本語	Japanese	日本語	日语	日語
+ui.lang.zhCN	중국어(간체)	Simplified Chinese	簡体中文	简体中文	繁體中文
+ui.lang.zhTW	중국어(번체)	Traditional Chinese	繁体中文	繁體中文	繁體中文
+nav.home	홈	Home	ホーム	主页	首頁
+nav.portfolio	포트폴리오	Portfolio	ポートフォリオ	作品集	作品集
+nav.skills	기술	Skills	スキル	技能	技能
+nav.about	소개	About	紹介	介绍	介紹
+footer.left	© {{year}} 최우석	© {{year}} Woosuk Choi	© {{year}} チェ・ウソク	© {{year}} 崔宇锡	© {{year}} 崔宇錫
+footer.right	Unity 클라이언트 개발	Unity Client Developer	Unityクライアント開発	Unity 客户端开发	Unity 客戶端開發
+portfolio.title	포트폴리오	Portfolio	ポートフォリオ	作品集	作品集
+portfolio.subtitle	카드를 클릭하면 상세 페이지로 이동합니다	Click a card to open the detail page	カードをクリックすると詳細ページへ移動します	点击卡片进入详情页面	點擊卡片進入詳細頁面
+portfolio.filter.all	전체	All	すべて	全部	全部
+badge.source	소스코드	Source Code	ソースコード	源代码	原始碼
+detail.notfound	프로젝트를 찾을 수 없습니다	Project not found	プロジェクトが見つかりません	未找到项目	找不到專案
+detail.back	홈으로	Back	戻る	返回	返回
+detail.info	프로젝트 정보	Project Info	プロジェクト情報	项目信息	專案資訊
+detail.team	인원	Team	人数	人员	人員
+detail.env	개발환경	Environment	開発環境	开发环境	開發環境
+detail.roles	담당 업무	My Work	担当	负责内容	負責內容
+detail.highlights	핵심 구현	Highlights	実装ポイント	核心实现	核心實作
+detail.links	링크	Links	リンク	链接	連結
+detail.videos	영상	Videos	動画	视频	影片
+detail.screenshots	스크린샷	Screenshots	スクリーンショット	截图	截圖
+detail.source.toggle	소스코드 보기	View Source	ソースを見る	查看源代码	查看原始碼
+hero.section.title	Unity 클라이언트 개발자	Unity Client Developer	Unityクライアント開発者	Unity 客户端开发者	Unity 客戶端開發者
+hero.section.subtitle	멀티플레이, 최적화, 데이터 기반 구조를 설계하고 구현합니다	Design and implement multiplayer, optimization, data-driven architecture	マルチプレイ、最適化、データ駆動設計を実装します	设计并实现多人联机、优化与数据驱动架构	設計並實作多人連線、最佳化與資料驅動架構
+hero.title.prefix	개발자	Developer	開発者	开发者	開發者
+hero.title.name	최우석	Woosuk Choi	チェ・ウソク	崔宇锡	崔宇錫
+hero.desc	Photon Fusion2, URP, Addressables, Firebase, 광고 및 분석 SDK 연동까지 출시와 운영을 고려한 개발 경험을 보유하고 있습니다.	Experience in Fusion2, URP, Addressables, Firebase, and Ads/Analytics SDK integrations for live release and operation.	Fusion2、URP、Addressables、Firebase、広告分析SDK連携など運用を考慮した開発経験があります。	具备 Fusion2、URP、Addressables、Firebase 以及广告与分析 SDK 集成经验，考虑上线与运营。	具備 Fusion2、URP、Addressables、Firebase 以及廣告與分析 SDK 整合經驗，考量上線與營運。
+hero.contact.email	Email	Email	Email	邮箱	信箱
+hero.contact.phone	Phone	Phone	Phone	电话	電話
+hero.chip.0	게임 클라이언트	Game Client	ゲームクライアント	游戏客户端	遊戲客戶端
+hero.chip.1	모바일 클라이언트	Mobile Client	モバイルクライアント	移动客户端	行動客戶端
+hero.chip.2	디바이스 및 시스템 연동	Device and System Integration	デバイスとシステム連携	设备与系统联动	裝置與系統整合
+hero.chip.3	라이브 서비스	Live Service	ライブサービス	线上运营	線上營運
+hero.chip.4	글로벌 출시	Global Release	グローバルリリース	全球发行	全球發行
+hero.chip.5	실시간 동기화	Real-time Synchronization	リアルタイム同期	实时同步	即時同步
+hero.about.title	About	About	About	关于	關於
+hero.about.body	Unity 기반 클라이언트 개발을 중심으로 멀티플레이 동기화, 성능 최적화, 데이터 기반 구조 설계에 강점이 있습니다. 기능 구현뿐 아니라 운영까지 고려해 안정적으로 확장 가능한 구조를 만드는 것을 목표로 합니다.	Focused on Unity client development with strengths in multiplayer sync, performance optimization, and data-driven architecture. I aim to build scalable structures considering live operation.	Unityクライアント開発を中心に、同期、最適化、データ駆動設計に強みがあります。運用を考慮した拡張可能な構造を目指します。	以 Unity 客户端开发为核心，擅长多人同步、性能优化与数据驱动架构设计，目标是构建可稳定扩展、兼顾运营的结构。	以 Unity 客戶端開發為核心，擅長多人同步、效能最佳化與資料驅動架構設計，目標是打造可穩定擴展、兼顧營運的結構。
+hero.about.li0	Fusion 기반 실시간 동기화 구조 설계 및 디버깅	Design and debug real-time synchronization with Fusion	Fusionのリアルタイム同期設計とデバッグ	Fusion 实时同步结构设计与调试	Fusion 即時同步結構設計與除錯
+hero.about.li1	URP 환경 렌더링 성능 최적화 및 리소스 관리	Optimize rendering performance and manage resources in URP	URP環境の描画最適化とリソース管理	URP 渲染性能优化与资源管理	URP 繪製效能最佳化與資源管理
+hero.about.li2	Addressables 및 테이블 기반 기능 확장 구조 구성	Build extensible structure with Addressables and table-driven data	Addressablesとテーブル駆動の拡張構造構築	使用 Addressables 与表驱动数据构建可扩展结构	以 Addressables 與表驅動資料建構可擴展結構
+skills.title	기술	Skills	スキル	技能	技能
+skills.subtitle	실무에서 자주 다룬 기술들 입니다.	Frequently used skills in production	実務でよく扱った技術です	实务中常用的技术	實務中常用的技術
+key	ko	en	ja	zhCN	zhTW
+category.game	게임	Game	ゲーム	游戏	遊戲
+category.content	콘텐츠	Content	コンテンツ	内容	內容
+project.memory-convenience-store.title	메모리편의점	Memory Convenience Store	メモリーコンビニ	记忆便利店	記憶便利店
+project.memory-convenience-store.oneLine	터치 드래그로 오브젝트를 옮겨 정답 위치에 배치하는 퍼즐 미니게임 기반 모바일 게임	A mobile puzzle game where you drag objects to the correct spots	タッチドラッグで正しい位置に配置するパズル系モバイルゲーム	通过触控拖拽物体并放置到正确位置的益智小游戏移动端游戏	透過觸控拖曳物件並放置到正確位置的益智小遊戲行動端遊戲
+project.memory-convenience-store.team	개발 2명 디자이너 1명	2 devs, 1 designer	開発2人 デザイナー1人	2名开发 1名设计	2名開發 1名設計
+project.memory-convenience-store.roles.0	미니게임 구현	Mini game implementation	ミニゲーム実装	小游戏实现	小遊戲實作
+project.memory-convenience-store.roles.1	AdMob 광고 연동	AdMob integration	AdMob連携	AdMob 集成	AdMob 整合
+project.memory-convenience-store.highlights.0	자식 오브젝트를 일괄 수집해 스테이지 구성 요소를 자동 관리	Collect child objects to auto manage stage elements	子オブジェクトを一括収集してステージ要素を自動管理	批量收集子物体以自动管理关卡元素	批次收集子物件以自動管理關卡要素
+project.memory-convenience-store.highlights.1	터치 입력 기반 드래그 이동 및 정답 배치 판정 로직 구현	Touch drag movement and placement validation	タッチ入力のドラッグ移動と配置判定を実装	实现触控拖拽移动与放置判定逻辑	實作觸控拖曳移動與放置判定邏輯
+project.memory-convenience-store.highlights.2	PlayerPrefs로 현재 스테이지 저장 및 불러오기 구현	Save and load current stage with PlayerPrefs	PlayerPrefsでステージ進行を保存と読込	PlayerPrefs 保存并读取当前关卡	PlayerPrefs 儲存並讀取目前關卡
+project.memory-convenience-store.highlights.3	스테이지마다 속도가 빨라지는 버튼 패턴 정답 세팅 구현	Configure stage based accelerating button pattern answers	ステージごとに速度が上がるボタンパターンを設定	实现随关卡加速的按钮模式答案配置	實作隨關卡加速的按鈕模式答案配置
+project.memory-convenience-store.highlights.4	Google Mobile Ads SDK 초기화 및 배너 요청 흐름 구성	Initialize Google Mobile Ads SDK and banner request flow	Google Mobile Ads SDK初期化とバナー要求フロー構成	构建 Google Mobile Ads SDK 初始化与横幅请求流程	建置 Google Mobile Ads SDK 初始化與橫幅請求流程
+link.playstore	PlayStore	Play Store	Play Store	Play 商店	Play 商店
+link.github	GitHub	GitHub	GitHub	GitHub	GitHub
+link.youtube	YouTube	YouTube	YouTube	YouTube	YouTube
+link.notion	Notion	Notion	Notion	Notion	Notion
+link.demo	데모	Demo	デモ	演示	示範
+link.website	웹사이트	Website	Webサイト	网站	網站

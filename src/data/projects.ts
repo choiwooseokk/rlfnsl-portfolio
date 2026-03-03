@@ -1,65 +1,88 @@
-export type ProjectCategory = "게임" | "콘텐츠" | "시스템 연동";
+export type ProjectCategory = "게임" | "콘텐츠";
 
-export type ProjectItem = {
-  id: string;
-  title: string;
-  period: string;
-  oneLine: string;
-  tags: string[];
-  imageSrc: string;
-  category: ProjectCategory;
-  summary: string;
-  role: string[];
-  tech: string[];
-  problems: string[];
-  results: string[];
+export type ProjectLink = {
+  labelKey: string;
+  url: string;
 };
 
-export const PROJECTS: ProjectItem[] = [
+export type ProjectVideo =
+  | { kind: "external"; labelKey: string; url: string }
+  | { kind: "local"; labelKey: string; src: string; poster?: string };
+
+export type Project = {
+  id: string;
+
+  titleKey: string;
+  oneLineKey: string;
+
+  category: ProjectCategory;
+  period?: string;
+
+  tags?: string[];
+  imageSrc?: string;
+
+  teamKey?: string;
+  environment?: string[];
+
+  roleKeys?: string[];
+  highlightKeys?: string[];
+
+  links?: ProjectLink[];
+  videos?: ProjectVideo[];
+  screenshots?: string[];
+
+  sourceCode?: {
+    enabled: boolean;
+    blocks: Array<{
+      titleKey?: string;
+      language?: string;
+      code: string;
+    }>;
+  };
+};
+
+export const PROJECTS: Project[] = [
   {
-    id: "project-a",
-    title: "프로젝트 A",
-    period: "YYYY.MM - YYYY.MM",
-    oneLine: "멀티플레이 전투 및 실시간 동기화 구조 구현",
-    tags: ["Fusion", "동기화", "URP"],
-    imageSrc: "/projects/project-a.png",
+    id: "memory-convenience-store",
+    titleKey: "project.memory-convenience-store.title",
+    oneLineKey: "project.memory-convenience-store.oneLine",
     category: "게임",
-    summary: "프로젝트 요약을 여기에 작성하세요.",
-    role: ["내 역할을 여기에 작성하세요."],
-    tech: ["사용 기술을 여기에 작성하세요."],
-    problems: ["해결한 문제를 여기에 작성하세요."],
-    results: ["성과를 여기에 작성하세요."],
-  },
-  {
-    id: "project-b",
-    title: "프로젝트 B",
-    period: "YYYY.MM - YYYY.MM",
-    oneLine: "라이브 운영을 고려한 데이터 기반 클라이언트 구조",
-    tags: ["Addressables", "데이터", "운영"],
-    imageSrc: "/projects/project-b.png",
-    category: "콘텐츠",
-    summary: "프로젝트 요약을 여기에 작성하세요.",
-    role: ["내 역할을 여기에 작성하세요."],
-    tech: ["사용 기술을 여기에 작성하세요."],
-    problems: ["해결한 문제를 여기에 작성하세요."],
-    results: ["성과를 여기에 작성하세요."],
-  },
-  {
-    id: "project-c",
-    title: "프로젝트 C",
-    period: "YYYY.MM - YYYY.MM",
-    oneLine: "외부 시스템 연동이 필요한 디바이스 클라이언트",
-    tags: ["연동", "디바이스", "UI"],
-    imageSrc: "/projects/project-c.png",
-    category: "시스템 연동",
-    summary: "프로젝트 요약을 여기에 작성하세요.",
-    role: ["내 역할을 여기에 작성하세요."],
-    tech: ["사용 기술을 여기에 작성하세요."],
-    problems: ["해결한 문제를 여기에 작성하세요."],
-    results: ["성과를 여기에 작성하세요."],
+    period: "2020.02 ~ 2020.05",
+    tags: ["Unity", "Mobile", "Puzzle", "Touch", "PlayerPrefs", "AdMob"],
+    imageSrc: "/assets/projects/memory/thumb.jpg",
+
+    teamKey: "project.memory-convenience-store.team",
+    environment: ["Unity", "Visual Studio"],
+
+    roleKeys: [
+      "project.memory-convenience-store.roles.0",
+      "project.memory-convenience-store.roles.1",
+    ],
+    highlightKeys: [
+      "project.memory-convenience-store.highlights.0",
+      "project.memory-convenience-store.highlights.1",
+      "project.memory-convenience-store.highlights.2",
+      "project.memory-convenience-store.highlights.3",
+      "project.memory-convenience-store.highlights.4",
+    ],
+
+    links: [
+      { labelKey: "link.playstore", url: "https://example.com/store" }
+    ],
+
+    videos: [
+      { kind: "external", labelKey: "link.youtube", url: "https://youtube.com/..." }
+    ],
+
+    screenshots: [
+      "/assets/projects/memory/shot1.jpg",
+      "/assets/projects/memory/shot2.jpg",
+    ],
+
+    sourceCode: { enabled: false, blocks: [] },
   },
 ];
 
-export function GetProjectById(id: string) {
-  return PROJECTS.find((p) => p.id === id) ?? null;
+export function FindProjectById(_id: string): Project | undefined {
+  return PROJECTS.find((p) => p.id === _id);
 }

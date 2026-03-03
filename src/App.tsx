@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
@@ -9,14 +10,18 @@ type SectionItem = {
 };
 
 export default function App() {
+  const { t } = useTranslation();
+  const PublicLocation = useLocation();
+  const PublicIsHome = PublicLocation.pathname === "/";
+
   const PublicSections: SectionItem[] = [
-    { id: "home", label: "홈" },
-    { id: "portfolio", label: "포트폴리오" },
+    { id: "home", label: t("nav.home") },
+    { id: "portfolio", label: t("nav.portfolio") },
   ];
 
   return (
     <div className="app">
-      <Navbar sections={PublicSections} activeId="home" />
+      {PublicIsHome ? <Navbar sections={PublicSections} activeId="home" /> : null}
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -25,8 +30,10 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footerInner">
-          <div className="footerLeft">© {new Date().getFullYear()} 최우석</div>
-          <div className="footerRight">Unity 클라이언트 개발</div>
+          <div className="footerLeft">
+            {t("footer.left", { year: new Date().getFullYear() })}
+          </div>
+          <div className="footerRight">{t("footer.right")}</div>
         </div>
       </footer>
     </div>

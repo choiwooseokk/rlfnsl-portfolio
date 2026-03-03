@@ -1,109 +1,207 @@
-import { useMemo } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Section from "../components/Section";
-import { GetProjectById } from "../data/projects";
+import { Link, useParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FindProjectById } from "../data/projects";
+import type { ProjectCategory } from "../data/projects";
+
+function GetCategoryKey(PublicCategory: ProjectCategory) {
+  if (PublicCategory === "게임") return "category.game";
+  return "category.content";
+}
 
 export default function ProjectDetailPage() {
-  const PublicNavigate = useNavigate();
+  const { t } = useTranslation();
   const PublicParams = useParams();
 
   const PublicProject = useMemo(() => {
-    const _id = PublicParams.id ?? "";
-    return GetProjectById(_id);
+    return FindProjectById(PublicParams.id ?? "");
   }, [PublicParams.id]);
+
+  const [PublicShowSource, SetPublicShowSource] = useState(false);
 
   if (!PublicProject) {
     return (
       <main className="main">
-        <Section id="project-not-found" title="프로젝트를 찾을 수 없습니다" subtitle="목록으로 돌아가 주세요">
-          <div className="projectDetailWrap">
-            <button className="btnGhost" type="button" onClick={() => PublicNavigate("/")}>
-              홈으로
-            </button>
-          </div>
-        </Section>
+        <div className="container">
+          <h1 className="pageTitle">{t("detail.notfound")}</h1>
+          <Link to="/" className="detailBackLink">
+            {t("detail.back")}
+          </Link>
+        </div>
       </main>
     );
   }
 
+  const PublicHasTags = (PublicProject.tags?.length ?? 0) > 0;
+  const PublicHasTeam = !!PublicProject.teamKey;
+  const PublicHasEnv = (PublicProject.environment?.length ?? 0) > 0;
+  const PublicHasInfo = PublicHasTeam || PublicHasEnv || PublicHasTags;
+
+  const PublicHasRoles = (PublicProject.roleKeys?.length ?? 0) > 0;
+  const PublicHasHighlights = (PublicProject.highlightKeys?.length ?? 0) > 0;
+  const PublicHasScreens = (PublicProject.screenshots?.length ?? 0) > 0;
+  const PublicHasLinks = (PublicProject.links?.length ?? 0) > 0;
+  const PublicHasVideos = (PublicProject.videos?.length ?? 0) > 0;
+
+  const PublicHasSource =
+    PublicProject.sourceCode?.enabled === true && (PublicProject.sourceCode.blocks?.length ?? 0) > 0;
+
   return (
     <main className="main">
-      <Section id={`project-${PublicProject.id}`} title={PublicProject.title} subtitle={PublicProject.oneLine}>
-        <div className="projectDetailWrap">
-          <div className="projectDetailTop">
-            <button className="btnGhost" type="button" onClick={() => PublicNavigate(-1)}>
-              뒤로
-            </button>
-            <Link className="btnGhost" to="/">
-              포트폴리오로
-            </Link>
+      <div className="container detailPage">
+        <Link to="/" className="detailBackLink">
+          {t("detail.back")}
+        </Link>
+
+        <div className="detailHeader">
+          <div className="detailHeaderTop">
+            <h1 className="detailTitle">{t(PublicProject.titleKey)}</h1>
+            <span className="detailCategory">{t(GetCategoryKey(PublicProject.category))}</span>
           </div>
 
-          <div className="projectDetailHeader">
-            <div className="projectDetailHeaderLeft">
-              <div className="projectDetailPeriod">{PublicProject.period}</div>
+          {PublicProject.period ? <div className="detailPeriod">{PublicProject.period}</div> : null}
+          <p className="detailOneLine">{t(PublicProject.oneLineKey)}</p>
 
-              <div className="projectDetailBadges">
-                <span className="projectCategory">{PublicProject.category}</span>
-                {PublicProject.tags.map((t) => (
-                  <span key={t} className="tag">
-                    {t}
-                  </span>
+          {PublicProject.imageSrc ? (
+            <div className="detailThumbWrap">
+              <img className="detailThumb" src={PublicProject.imageSrc} alt={t(PublicProject.titleKey)} />
+            </div>
+          ) : null}
+        </div>
+
+        <div className="detailGrid">
+          {PublicHasInfo ? (
+            <section className="detailCard">
+              <h2 className="detailH2">{t("detail.info")}</h2>
+
+              {PublicHasTeam ? (
+                <div className="detailInfoRow">
+                  <div className="detailInfoLabel">{t("detail.team")}</div>
+                  <div className="detailInfoValue">{t(PublicProject.teamKey as string)}</div>
+                </div>
+              ) : null}
+
+              {PublicHasEnv ? (
+                <div className="detailInfoRow">
+                  <div className="detailInfoLabel">{t("detail.env")}</div>
+                  <div className="detailInfoValue">{PublicProject.environment!.join(", ")}</div>
+                </div>
+              ) : null}
+
+              {PublicHasTags ? (
+                <div className="detailTags">
+                  {PublicProject.tags!.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+
+          {PublicHasRoles ? (
+            <section className="detailCard">
+              <h2 className="detailH2">{t("detail.roles")}</h2>
+              <ul className="detailList">
+                {PublicProject.roleKeys!.map((k) => (
+                  <li key={k}>{t(k)}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {PublicHasHighlights ? (
+            <section className="detailCard">
+              <h2 className="detailH2">{t("detail.highlights")}</h2>
+              <ul className="detailList">
+                {PublicProject.highlightKeys!.map((k) => (
+                  <li key={k}>{t(k)}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {PublicHasScreens ? (
+            <section className="detailCard detailCardFull">
+              <h2 className="detailH2">{t("detail.screenshots")}</h2>
+              <div className="detailShots">
+                {PublicProject.screenshots!.map((s) => (
+                  <img key={s} className="detailShot" src={s} alt="screenshot" />
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
+          ) : null}
 
-          <div className="projectDetailBody">
-            <div className="projectDetailLeft">
-              <img className="projectDetailImg" src={PublicProject.imageSrc} alt={PublicProject.title} />
-            </div>
+          {PublicHasLinks ? (
+            <section className="detailCard">
+              <h2 className="detailH2">{t("detail.links")}</h2>
+              <div className="detailLinks">
+                {PublicProject.links!.map((l) => (
+                  <a key={l.url} className="detailLinkBtn" href={l.url} target="_blank" rel="noreferrer">
+                    {t(l.labelKey, { defaultValue: l.labelKey })}
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
-            <div className="projectDetailRight">
-              <div className="projectDetailSection">
-                <div className="projectDetailSectionTitle">요약</div>
-                <div className="projectDetailText">{PublicProject.summary}</div>
+          {PublicHasVideos ? (
+            <section className="detailCard">
+              <h2 className="detailH2">{t("detail.videos")}</h2>
+
+              <div className="detailLinks">
+                {PublicProject.videos!.map((v) => {
+                  if (v.kind === "external") {
+                    return (
+                      <a key={v.url} className="detailLinkBtn" href={v.url} target="_blank" rel="noreferrer">
+                        {t(v.labelKey, { defaultValue: v.labelKey })}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <div key={v.src} className="detailVideo">
+                      <div className="detailVideoTitle">{t(v.labelKey, { defaultValue: v.labelKey })}</div>
+                      <video className="detailVideoPlayer" controls playsInline preload="metadata" poster={v.poster}>
+                        <source src={v.src} />
+                      </video>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
+
+          {PublicHasSource ? (
+            <section className="detailCard detailCardFull">
+              <div className="detailSourceHeader">
+                <h2 className="detailH2">{t("badge.source")}</h2>
+                <button
+                  type="button"
+                  className="detailSourceToggle"
+                  onClick={() => SetPublicShowSource((v) => !v)}
+                >
+                  {t("detail.source.toggle")}
+                </button>
               </div>
 
-              <div className="projectDetailSection">
-                <div className="projectDetailSectionTitle">담당</div>
-                <ul className="projectDetailList">
-                  {PublicProject.role.map((x) => (
-                    <li key={x}>{x}</li>
+              {PublicShowSource ? (
+                <div className="detailSourceBody">
+                  {PublicProject.sourceCode!.blocks.map((b, idx) => (
+                    <div key={idx} className="codeBlock">
+                      {b.titleKey ? <div className="codeBlockTitle">{t(b.titleKey)}</div> : null}
+                      <pre className="codePre">
+                        <code className={`language-${b.language || "text"}`}>{b.code}</code>
+                      </pre>
+                    </div>
                   ))}
-                </ul>
-              </div>
-
-              <div className="projectDetailSection">
-                <div className="projectDetailSectionTitle">기술</div>
-                <ul className="projectDetailList">
-                  {PublicProject.tech.map((x) => (
-                    <li key={x}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="projectDetailSection">
-                <div className="projectDetailSectionTitle">문제 해결</div>
-                <ul className="projectDetailList">
-                  {PublicProject.problems.map((x) => (
-                    <li key={x}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="projectDetailSection">
-                <div className="projectDetailSectionTitle">성과</div>
-                <ul className="projectDetailList">
-                  {PublicProject.results.map((x) => (
-                    <li key={x}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+                </div>
+              ) : null}
+            </section>
+          ) : null}
         </div>
-      </Section>
+      </div>
     </main>
   );
 }

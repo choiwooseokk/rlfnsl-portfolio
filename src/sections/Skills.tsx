@@ -1,4 +1,5 @@
-import Section from "../components/Section.jsx";
+import { useTranslation } from "react-i18next";
+import Section from "../components/Section";
 
 const SKILLS = [
   { title: "Unity", items: ["C#", "Addressables", "AssetBundle", "에디터 툴링"] },
@@ -8,8 +9,10 @@ const SKILLS = [
 ];
 
 export default function Skills() {
+  const { t } = useTranslation();
+
   return (
-    <Section id="skills" title="기술" subtitle="실무에서 자주 다룬 기술들 입니다.">
+    <Section id="skills" title={t("skills.title")} subtitle={t("skills.subtitle")}>
       <div className="grid2">
         {SKILLS.map((s) => (
           <div key={s.title} className="card">

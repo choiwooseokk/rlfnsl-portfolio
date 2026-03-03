@@ -1,3 +1,5 @@
+import LanguageSwitcher from "./LanguageSwitcher";
+
 type SectionItem = {
   id: string;
   label: string;
@@ -22,25 +24,29 @@ export default function Navbar({ sections, activeId }: Props) {
           최우석
         </button>
 
-        <nav className="navLinks" aria-label="섹션 이동">
-          {sections.map((s, _i) => {
-            const _isActive = s.id === activeId;
-            const _showDivider = _i !== 0;
+        <div className="navRight">
+          <nav className="navLinks" aria-label="섹션 이동">
+            {sections.map((s, _i) => {
+              const _isActive = s.id === activeId;
+              const _showDivider = _i !== 0;
 
-            return (
-              <span key={s.id} className="navItem">
-                {_showDivider ? <span className="navDivider">-</span> : null}
-                <button
-                  type="button"
-                  className={`navLink ${_isActive ? "active" : ""}`}
-                  onClick={() => _onClick(s.id)}
-                >
-                  {s.label}
-                </button>
-              </span>
-            );
-          })}
-        </nav>
+              return (
+                <span key={s.id} className="navItem">
+                  {_showDivider ? <span className="navDivider">-</span> : null}
+                  <button
+                    type="button"
+                    className={`navLink ${_isActive ? "active" : ""}`}
+                    onClick={() => _onClick(s.id)}
+                  >
+                    {s.label}
+                  </button>
+                </span>
+              );
+            })}
+          </nav>
+
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );
