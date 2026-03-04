@@ -225,19 +225,22 @@ a {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-  align-items: start;
-  padding: 26px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  border-radius: 18px;
+  display: block;
+  width: 100%;
 }
 
 .heroLeft {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+.heroDesc {
+  width: 100%;
+  max-width: none;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .heroTitle {
@@ -250,13 +253,6 @@ a {
 .heroAccent {
   color: var(--accent);
   font-weight: 900;
-}
-
-.heroDesc {
-  margin: 14px 0 0 0;
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 760px;
 }
 
 .heroContact {

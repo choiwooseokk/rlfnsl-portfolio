@@ -1,4 +1,6 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 type SectionItem = {
   id: string;
@@ -10,40 +12,56 @@ type Props = {
   activeId: string;
 };
 
-export default function Navbar({ sections, activeId }: Props) {
-  const _onClick = (id: string) => {
+export default function Navbar({ sections }: Props) {
+  const { t } = useTranslation();
+  const PublicNavigate = useNavigate();
+  const PublicLocation = useLocation();
+  const PrivateIsHome = PublicLocation.pathname === "/";
+
+  const PrivateScrollTo = (id: string) => {
     const _el = document.getElementById(id);
     if (!_el) return;
     _el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const OnBrandClick = () => {
+    if (PrivateIsHome) {
+      PrivateScrollTo("home");
+      return;
+    }
+
+    PublicNavigate("/");
+    setTimeout(() => {
+      PrivateScrollTo("home");
+    }, 0);
+  };
+
+  const PrivateHasLinks = (sections?.length ?? 0) > 0;
+
   return (
     <header className="nav">
       <div className="container navInner">
-        <button className="brand" type="button" onClick={() => _onClick("home")}>
-          최우석
+        <button className="brand" type="button" onClick={OnBrandClick}>
+          {t("hero.title.name")}
         </button>
 
         <div className="navRight">
-          <nav className="navLinks" aria-label="섹션 이동">
-            {sections.map((s, _i) => {
-              const _isActive = s.id === activeId;
-              const _showDivider = _i !== 0;
+          {PrivateHasLinks ? (
+            <nav className="navLinks" aria-label="섹션 이동">
+              {sections.map((s, _i) => {
+                const _showDivider = _i !== 0;
 
-              return (
-                <span key={s.id} className="navItem">
-                  {_showDivider ? <span className="navDivider">-</span> : null}
-                  <button
-                    type="button"
-                    className={`navLink ${_isActive ? "active" : ""}`}
-                    onClick={() => _onClick(s.id)}
-                  >
-                    {s.label}
-                  </button>
-                </span>
-              );
-            })}
-          </nav>
+                return (
+                  <span key={s.id} className="navItem">
+                    {_showDivider ? <span className="navDivider">-</span> : null}
+                    <button type="button" className="navLink" onClick={() => PrivateScrollTo(s.id)}>
+                      {s.label}
+                    </button>
+                  </span>
+                );
+              })}
+            </nav>
+          ) : null}
 
           <LanguageSwitcher />
         </div>

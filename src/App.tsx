@@ -21,7 +21,7 @@ export default function App() {
 
   return (
     <div className="app">
-      {PublicIsHome ? <Navbar sections={PublicSections} activeId="home" /> : null}
+      <Navbar sections={PublicIsHome ? [] : []} activeId="home" />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -30,9 +30,7 @@ export default function App() {
 
       <footer className="footer">
         <div className="container footerInner">
-          <div className="footerLeft">
-            {t("footer.left", { year: new Date().getFullYear() })}
-          </div>
+          <div className="footerLeft">{t("footer.left", { year: new Date().getFullYear() })}</div>
           <div className="footerRight">{t("footer.right")}</div>
         </div>
       </footer>
