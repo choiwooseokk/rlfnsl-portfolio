@@ -54,6 +54,7 @@ project.memory-convenience-store.oneLine	터치 드래그로 오브젝트를 옮
 project.memory-convenience-store.team	개발 2명 디자이너 1명	2 devs, 1 designer	開発2人 デザイナー1人	2名开发 1名设计	2名開發 1名設計
 project.memory-convenience-store.roles.0	미니게임 구현	Mini game implementation	ミニゲーム実装	小游戏实现	小遊戲實作
 project.memory-convenience-store.roles.1	AdMob 광고 연동	AdMob integration	AdMob連携	AdMob 集成	AdMob 整合
+project.memory-convenience-store.roles.2	프로젝트 매니저(PM) 겸 기획, 일정 관리	Project Manager (PM) and planning, schedule management	プロジェクトマネージャー(PM)兼 企画と進行管理	项目经理(PM)兼 策划与进度管理	專案經理(PM)兼 企劃與進度管理
 project.memory-convenience-store.highlights.0	자식 오브젝트를 일괄 수집해 스테이지 구성 요소를 자동 관리	Collect child objects to auto manage stage elements	子オブジェクトを一括収集してステージ要素を自動管理	批量收集子物体以自动管理关卡元素	批次收集子物件以自動管理關卡要素
 project.memory-convenience-store.highlights.1	터치 입력 기반 드래그 이동 및 정답 배치 판정 로직 구현	Touch drag movement and placement validation	タッチ入力のドラッグ移動と配置判定を実装	实现触控拖拽移动与放置判定逻辑	實作觸控拖曳移動與放置判定邏輯
 project.memory-convenience-store.highlights.2	PlayerPrefs로 현재 스테이지 저장 및 불러오기 구현	Save and load current stage with PlayerPrefs	PlayerPrefsでステージ進行を保存と読込	PlayerPrefs 保存并读取当前关卡	PlayerPrefs 儲存並讀取目前關卡
@@ -65,3 +66,17 @@ link.youtube	YouTube	YouTube	YouTube	YouTube	YouTube
 link.notion	Notion	Notion	Notion	Notion	Notion
 link.demo	데모	Demo	デモ	演示	示範
 link.website	웹사이트	Website	Webサイト	网站	網站
+project.memory-convenience-store.videos.stage2	두번째 스테이지	Stage 2	ステージ 2	第 2 关	第 2 關
+project.memory-convenience-store.videos.stage4	네번째 스테이지	Stage 4	ステージ 4	第 4 关	第 4 關
+tag.pm	PM(기획, 일정, 커뮤니케이션)	PM (Planning, Scheduling, Communication)	PM(企画 進行 コミュニケーション)	PM(策划 进度 沟通)	PM(企劃 進度 溝通)
+project.memory-convenience-store.code.imageAlt	코드 스크린샷	Code screenshot	コードスクリーンショット	代码截图	程式碼截圖
+project.memory-convenience-store.code.0.title	배열에 오브젝트 삽입	Array insert	配列にオブジェクト挿入	数组插入对象	陣列插入物件
+project.memory-convenience-store.code.0.desc	자식 오브젝트들을 모두 배열에 집어넣는 방식	Put all child objects into an array	子オブジェクトを配列にまとめる方式	将所有子对象放入数组	將所有子物件放入陣列
+project.memory-convenience-store.code.1.title	오브젝트 움직이기	Move object	オブジェクト移動	移动对象	移動物件
+project.memory-convenience-store.code.1.desc	Touch카운트로 오브젝트를 터치좌표로 움직이며 물건을 갖다놓았는지 체크	Move by touch position and check placement	Check placement while moving by touch	根据触控坐标移动并检查是否放置	依觸控座標移動並檢查是否放置
+project.memory-convenience-store.code.2.title	스테이지저장	Stage save	ステージ保存	关卡保存	關卡儲存
+project.memory-convenience-store.code.2.desc	현재 스테이지를 playerprefs로 저장과 불러오기	Save and load with PlayerPrefs	PlayerPrefsで保存と読込	用 PlayerPrefs 保存与读取	用 PlayerPrefs 儲存與讀取
+project.memory-convenience-store.code.3.title	GoogleAdmob	Google AdMob	GoogleAdmob	Google AdMob	Google AdMob
+project.memory-convenience-store.code.3.desc	GoogleAdmob 광고기능	Ad feature with AdMob	AdMob 広告機能	AdMob 广告功能	AdMob 廣告功能
+project.memory-convenience-store.code.4.title	정답 버튼 세팅	Answer button setup	正解ボタン設定	答案按钮设置	答案按鈕設定
+project.memory-convenience-store.code.4.desc	스테이지 마다 빨라지는방식으로 정답으로 눌러야하는 버튼을 세팅한다	Set answers with increasing speed per stage	ステージ毎に速度が上がる方式で設定	随关卡加速设置需要按的答案按钮	隨關卡加速設定需要按的答案按鈕

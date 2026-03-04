@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FindProjectById } from "../data/projects";
 import type { ProjectCategory } from "../data/projects";
@@ -19,8 +19,6 @@ export default function ProjectDetailPage() {
     return FindProjectById(PublicParams.id ?? "");
   }, [PublicParams.id]);
 
-  const [PublicTab, SetPublicTab] = useState<DetailTab>("info");
-
   if (!PublicProject) {
     return (
       <main className="main">
@@ -37,22 +35,41 @@ export default function ProjectDetailPage() {
   const PublicHasTags = (PublicProject.tags?.length ?? 0) > 0;
   const PublicHasTeam = !!PublicProject.teamKey;
   const PublicHasEnv = (PublicProject.environment?.length ?? 0) > 0;
-  const PublicHasInfo = PublicHasTeam || PublicHasEnv || PublicHasTags;
 
   const PublicHasRoles = (PublicProject.roleKeys?.length ?? 0) > 0;
   const PublicHasHighlights = (PublicProject.highlightKeys?.length ?? 0) > 0;
-  const PublicHasScreens = (PublicProject.screenshots?.length ?? 0) > 0;
   const PublicHasLinks = (PublicProject.links?.length ?? 0) > 0;
   const PublicHasVideos = (PublicProject.videos?.length ?? 0) > 0;
 
+  const PublicHasScreens = (PublicProject.screenshots?.length ?? 0) > 0;
+  
   const PublicHasSource =
-    PublicProject.sourceCode?.enabled === true && (PublicProject.sourceCode.blocks?.length ?? 0) > 0;
+    PublicProject.sourceCode?.enabled === true &&
+    (PublicProject.sourceCode.blocks?.some((PublicBlock) => {
+      const _hasImages = (PublicBlock.images?.length ?? 0) > 0;
+      const _hasText = !!PublicBlock.code && PublicBlock.code.trim().length > 0;
+      return _hasImages || _hasText;
+    }) ?? false);
 
-  const PrivateClickTab = (_tab: DetailTab) => {
-    if (_tab === "screens" && !PublicHasScreens) return;
-    if (_tab === "code" && !PublicHasSource) return;
-    SetPublicTab(_tab);
-  };
+  const PublicHasInfoTab =
+    PublicHasTeam || PublicHasEnv || PublicHasTags || PublicHasRoles || PublicHasHighlights || PublicHasLinks || PublicHasVideos;
+
+  const PublicTabs = useMemo(() => {
+    const _tabs: Array<{ id: DetailTab; label: string; visible: boolean }> = [
+      { id: "info", label: t("detail.info"), visible: PublicHasInfoTab },
+      { id: "screens", label: t("detail.screenshots"), visible: PublicHasScreens },
+      { id: "code", label: t("badge.source"), visible: PublicHasSource },
+    ];
+    return _tabs.filter((_t) => _t.visible);
+  }, [t, PublicHasInfoTab, PublicHasScreens, PublicHasSource]);
+
+  const [PublicActiveTab, SetPublicActiveTab] = useState<DetailTab>(PublicTabs[0]?.id ?? "info");
+
+  useEffect(() => {
+    if (PublicTabs.length === 0) return;
+    const _exists = PublicTabs.some((_t) => _t.id === PublicActiveTab);
+    if (!_exists) SetPublicActiveTab(PublicTabs[0].id);
+  }, [PublicTabs, PublicActiveTab]);
 
   return (
     <main className="main">
@@ -75,46 +92,32 @@ export default function ProjectDetailPage() {
               <img className="detailThumb" src={PublicProject.imageSrc} alt={t(PublicProject.titleKey)} />
             </div>
           ) : null}
-
-          <div className="detailTabs" role="tablist" aria-label={t("detail.tabs", { defaultValue: "상세 탭" })}>
-            <button
-              type="button"
-              className={`detailTabBtn ${PublicTab === "info" ? "active" : ""}`}
-              onClick={() => PrivateClickTab("info")}
-              role="tab"
-              aria-selected={PublicTab === "info"}
-            >
-              {t("detail.info", { defaultValue: "정보" })}
-            </button>
-
-            <button
-              type="button"
-              className={`detailTabBtn ${PublicTab === "screens" ? "active" : ""}`}
-              onClick={() => PrivateClickTab("screens")}
-              role="tab"
-              aria-selected={PublicTab === "screens"}
-              disabled={!PublicHasScreens}
-            >
-              {t("detail.screenshots", { defaultValue: "스크린샷" })}
-            </button>
-
-            <button
-              type="button"
-              className={`detailTabBtn ${PublicTab === "code" ? "active" : ""}`}
-              onClick={() => PrivateClickTab("code")}
-              role="tab"
-              aria-selected={PublicTab === "code"}
-              disabled={!PublicHasSource}
-            >
-              {t("detail.code", { defaultValue: "코드" })}
-            </button>
-          </div>
         </div>
 
+        {PublicTabs.length > 1 ? (
+          <div className="detailTabs" role="tablist">
+            {PublicTabs.map((_tab) => {
+              const _active = _tab.id === PublicActiveTab;
+              return (
+                <button
+                  key={_tab.id}
+                  type="button"
+                  className={`detailTabBtn ${_active ? "active" : ""}`}
+                  onClick={() => SetPublicActiveTab(_tab.id)}
+                  role="tab"
+                  aria-selected={_active}
+                >
+                  {_tab.label}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
+
         <div className="detailGrid">
-          {PublicTab === "info" ? (
+          {PublicActiveTab === "info" ? (
             <>
-              {PublicHasInfo ? (
+              {PublicHasTeam || PublicHasEnv || PublicHasTags ? (
                 <section className="detailCard">
                   <h2 className="detailH2">{t("detail.info")}</h2>
 
@@ -134,9 +137,9 @@ export default function ProjectDetailPage() {
 
                   {PublicHasTags ? (
                     <div className="detailTags">
-                      {PublicProject.tags!.map((tag) => (
-                        <span key={tag} className="tag">
-                          {tag}
+                      {PublicProject.tags!.map((_tag) => (
+                        <span key={_tag} className="tag">
+                          {_tag}
                         </span>
                       ))}
                     </div>
@@ -148,8 +151,8 @@ export default function ProjectDetailPage() {
                 <section className="detailCard">
                   <h2 className="detailH2">{t("detail.roles")}</h2>
                   <ul className="detailList">
-                    {PublicProject.roleKeys!.map((k) => (
-                      <li key={k}>{t(k)}</li>
+                    {PublicProject.roleKeys!.map((_k) => (
+                      <li key={_k}>{t(_k)}</li>
                     ))}
                   </ul>
                 </section>
@@ -159,8 +162,8 @@ export default function ProjectDetailPage() {
                 <section className="detailCard">
                   <h2 className="detailH2">{t("detail.highlights")}</h2>
                   <ul className="detailList">
-                    {PublicProject.highlightKeys!.map((k) => (
-                      <li key={k}>{t(k)}</li>
+                    {PublicProject.highlightKeys!.map((_k) => (
+                      <li key={_k}>{t(_k)}</li>
                     ))}
                   </ul>
                 </section>
@@ -170,9 +173,9 @@ export default function ProjectDetailPage() {
                 <section className="detailCard">
                   <h2 className="detailH2">{t("detail.links")}</h2>
                   <div className="detailLinks">
-                    {PublicProject.links!.map((l) => (
-                      <a key={l.url} className="detailLinkBtn" href={l.url} target="_blank" rel="noreferrer">
-                        {t(l.labelKey, { defaultValue: l.labelKey })}
+                    {PublicProject.links!.map((_l) => (
+                      <a key={_l.url} className="detailLinkBtn" href={_l.url} target="_blank" rel="noreferrer">
+                        {t(_l.labelKey, { defaultValue: _l.labelKey })}
                       </a>
                     ))}
                   </div>
@@ -184,21 +187,34 @@ export default function ProjectDetailPage() {
                   <h2 className="detailH2">{t("detail.videos")}</h2>
 
                   <div className="detailLinks">
-                    {PublicProject.videos!.map((v) => {
-                      if (v.kind === "external") {
+                    {PublicProject.videos!.map((_v, _i) => {
+                      if (_v.kind === "external") {
                         return (
-                          <a key={v.url} className="detailLinkBtn" href={v.url} target="_blank" rel="noreferrer">
-                            {t(v.labelKey, { defaultValue: v.labelKey })}
+                          <a key={`${_v.url}-${_i}`} className="detailLinkBtn" href={_v.url} target="_blank" rel="noreferrer">
+                            {t(_v.labelKey, { defaultValue: _v.labelKey })}
                           </a>
                         );
                       }
 
                       return (
-                        <div key={v.src} className="detailVideo">
-                          <div className="detailVideoTitle">{t(v.labelKey, { defaultValue: v.labelKey })}</div>
-                          <video className="detailVideoPlayer" controls playsInline preload="metadata" poster={v.poster}>
-                            <source src={v.src} />
-                          </video>
+                        <div key={`${_v.src}-${_i}`} className="detailVideo">
+                          <div className="detailVideoTitle">{t(_v.labelKey, { defaultValue: _v.labelKey })}</div>
+
+                          <div
+                            className="detailVideoFrame"
+                            style={{
+                              backgroundImage: _v.poster ? `url(${_v.poster})` : undefined,
+                            }}
+                          >
+                            <video
+                              className="detailVideoPlayer"
+                              controls
+                              playsInline
+                              preload="metadata"
+                              src={_v.src}
+                              poster={_v.poster}
+                            />
+                          </div>
                         </div>
                       );
                     })}
@@ -208,30 +224,54 @@ export default function ProjectDetailPage() {
             </>
           ) : null}
 
-          {PublicTab === "screens" && PublicHasScreens ? (
+          {PublicActiveTab === "screens" && PublicHasScreens ? (
             <section className="detailCard detailCardFull">
-              <h2 className="detailH2">{t("detail.screenshots", { defaultValue: "스크린샷" })}</h2>
+              <h2 className="detailH2">{t("detail.screenshots")}</h2>
               <div className="detailShots">
-                {PublicProject.screenshots!.map((s) => (
-                  <img key={s} className="detailShot" src={s} alt="screenshot" />
+                {PublicProject.screenshots!.map((_s) => (
+                  <img key={_s} className="detailShot" src={_s} alt="screenshot" />
                 ))}
               </div>
             </section>
           ) : null}
 
-          {PublicTab === "code" && PublicHasSource ? (
+          {PublicActiveTab === "code" && PublicHasSource ? (
             <section className="detailCard detailCardFull">
-              <h2 className="detailH2">{t("detail.code", { defaultValue: "코드" })}</h2>
+              <div className="detailSourceHeader">
+                <h2 className="detailH2">{t("badge.source")}</h2>
+              </div>
 
               <div className="detailSourceBody">
-                {PublicProject.sourceCode!.blocks.map((b, idx) => (
-                  <div key={idx} className="codeBlock">
-                    {b.titleKey ? <div className="codeBlockTitle">{t(b.titleKey)}</div> : null}
-                    <pre className="codePre">
-                      <code className={`language-${b.language || "text"}`}>{b.code}</code>
-                    </pre>
-                  </div>
-                ))}
+                {PublicProject.sourceCode!.blocks.map((PublicBlock, _idx) => {
+                  const PublicHasImages = (PublicBlock.images?.length ?? 0) > 0;
+                  const PublicHasTextCode = !!PublicBlock.code && PublicBlock.code.trim().length > 0;
+
+                  return (
+                    <div key={_idx} className="codeBlock">
+                      {PublicBlock.titleKey ? <div className="codeBlockTitle">{t(PublicBlock.titleKey)}</div> : null}
+                      {PublicBlock.descKey ? <div className="codeBlockDesc">{t(PublicBlock.descKey)}</div> : null}
+
+                      {PublicHasImages ? (
+                        <div className="codeImageGrid">
+                          {PublicBlock.images!.map((PublicImg, _imgIdx) => (
+                            <figure key={`${PublicImg.src}-${_imgIdx}`} className="codeFigure">
+                              <a className="codeImageLink" href={PublicImg.src} target="_blank" rel="noreferrer">
+                                <img className="codeImage" src={PublicImg.src} alt="code" />
+                              </a>
+                              {PublicImg.captionKey ? <figcaption className="codeCaption">{t(PublicImg.captionKey)}</figcaption> : null}
+                            </figure>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {PublicHasTextCode ? (
+                        <pre className="codePre">
+                          <code className={`language-${PublicBlock.language || "text"}`}>{PublicBlock.code}</code>
+                        </pre>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
             </section>
           ) : null}

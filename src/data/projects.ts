@@ -9,6 +9,20 @@ export type ProjectVideo =
   | { kind: "external"; labelKey: string; url: string }
   | { kind: "local"; labelKey: string; src: string; poster?: string };
 
+export type ProjectCodeImageItem = {
+  src: string;
+  captionKey?: string;
+};
+
+export type ProjectCodeBlock = {
+  titleKey?: string;
+  descKey?: string;
+  images?: ProjectCodeImageItem[];
+
+  language?: string;
+  code?: string;
+};
+
 export type Project = {
   id: string;
 
@@ -36,11 +50,7 @@ export type Project = {
 
   sourceCode?: {
     enabled: boolean;
-    blocks: Array<{
-      titleKey?: string;
-      language?: string;
-      code: string;
-    }>;
+    blocks: ProjectCodeBlock[];
   };
 };
 
@@ -59,29 +69,29 @@ const PRIVATE_SHOT_MODULES = import.meta.glob<UrlModule>(
   { eager: true, query: "?url" }
 );
 
-function PrivateGetFolderFromThumbPath(_path: string) {
+function privateGetFolderFromThumbPath(_path: string) {
   const _match = _path.match(/\/assets\/projects\/([^/]+)\/thumb\.(png|jpg|jpeg|webp)$/);
   return _match ? _match[1] : "";
 }
 
-function PrivateGetFolderFromShotPath(_path: string) {
+function privateGetFolderFromShotPath(_path: string) {
   const _match = _path.match(/\/assets\/projects\/([^/]+)\/shots\//);
   return _match ? _match[1] : "";
 }
 
-function PrivateBuildThumbMap() {
+function privateBuildThumbMap() {
   const _map: Record<string, string> = {};
   for (const [_path, _mod] of Object.entries(PRIVATE_THUMB_MODULES)) {
-    const _folder = PrivateGetFolderFromThumbPath(_path);
+    const _folder = privateGetFolderFromThumbPath(_path);
     if (_folder) _map[_folder] = _mod.default;
   }
   return _map;
 }
 
-function PrivateBuildShotsMap() {
+function privateBuildShotsMap() {
   const _map: Record<string, string[]> = {};
   for (const [_path, _mod] of Object.entries(PRIVATE_SHOT_MODULES)) {
-    const _folder = PrivateGetFolderFromShotPath(_path);
+    const _folder = privateGetFolderFromShotPath(_path);
     if (!_folder) continue;
     if (!_map[_folder]) _map[_folder] = [];
     _map[_folder].push(_mod.default);
@@ -94,10 +104,10 @@ function PrivateBuildShotsMap() {
   return _map;
 }
 
-const PRIVATE_THUMBS_BY_FOLDER = PrivateBuildThumbMap();
-const PRIVATE_SHOTS_BY_FOLDER = PrivateBuildShotsMap();
+const PRIVATE_THUMBS_BY_FOLDER = privateBuildThumbMap();
+const PRIVATE_SHOTS_BY_FOLDER = privateBuildShotsMap();
 
-function PrivateNormalizeProject(_project: Project): Project {
+function privateNormalizeProject(_project: Project): Project {
   const _folder = _project.mediaFolder ?? _project.id;
 
   const _imageSrc = _project.imageSrc ?? PRIVATE_THUMBS_BY_FOLDER[_folder];
@@ -111,7 +121,7 @@ function PrivateNormalizeProject(_project: Project): Project {
 }
 
 export const PROJECTS: Project[] = Object.values(PRIVATE_PROJECT_MODULES)
-  .map((_m) => PrivateNormalizeProject(_m.default))
+  .map((_m) => privateNormalizeProject(_m.default))
   .sort((_a, _b) => _a.id.localeCompare(_b.id));
 
 export function FindProjectById(_id: string): Project | undefined {
