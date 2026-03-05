@@ -61,6 +61,9 @@ project.memory-convenience-store.highlights.2	PlayerPrefs로 현재 스테이지
 project.memory-convenience-store.highlights.3	스테이지마다 속도가 빨라지는 버튼 패턴 정답 세팅 구현	Configure stage based accelerating button pattern answers	ステージごとに速度が上がるボタンパターンを設定	实现随关卡加速的按钮模式答案配置	實作隨關卡加速的按鈕模式答案配置
 project.memory-convenience-store.highlights.4	Google Mobile Ads SDK 초기화 및 배너 요청 흐름 구성	Initialize Google Mobile Ads SDK and banner request flow	Google Mobile Ads SDK初期化とバナー要求フロー構成	构建 Google Mobile Ads SDK 初始化与横幅请求流程	建置 Google Mobile Ads SDK 初始化與橫幅請求流程
 link.playstore	PlayStore	Play Store	Play Store	Play 商店	Play 商店
+link.onestore	원스토어	OneStore	OneStore	OneStore	OneStore
+link.drive	구글 드라이브	Google Drive	Google Drive	Google Drive	Google Drive
+link.stovevr	스토브 VR	Stove VR	Stove VR	Stove VR	Stove VR										
 link.github	GitHub	GitHub	GitHub	GitHub	GitHub
 link.youtube	YouTube	YouTube	YouTube	YouTube	YouTube
 link.notion	Notion	Notion	Notion	Notion	Notion
@@ -80,3 +83,60 @@ project.memory-convenience-store.code.3.title	GoogleAdmob	Google AdMob	GoogleAdm
 project.memory-convenience-store.code.3.desc	GoogleAdmob 광고기능	Ad feature with AdMob	AdMob 広告機能	AdMob 广告功能	AdMob 廣告功能
 project.memory-convenience-store.code.4.title	정답 버튼 세팅	Answer button setup	正解ボタン設定	答案按钮设置	答案按鈕設定
 project.memory-convenience-store.code.4.desc	스테이지 마다 빨라지는방식으로 정답으로 눌러야하는 버튼을 세팅한다	Set answers with increasing speed per stage	ステージ毎に速度が上がる方式で設定	随关卡加速设置需要按的答案按钮	隨關卡加速設定需要按的答案按鈕
+project.epacse.title	EPACSE	EPACSE	EPACSE
+project.epacse.oneLine	귀신을 ‘보면’ 멈추는 시야 기반 VR 공포 탈출	VR horror escape where the ghost stops when you look at it	見ると止まる視線ギミックのVRホラー脱出
+project.epacse.team	3명(기획 1, 개발 2)	3 people (1 planning, 2 development)	3人(企画1 開発2)
+project.epacse.roles.0	기획 및 개발(핵심 규칙 설계, 시스템 구현)	Planning and development (core rules, system implementation)	企画と開発(コアルール設計 システム実装)
+project.epacse.roles.1	UI 구현	UI implementation	UI実装
+project.epacse.roles.2	카메라 및 시야 기반 플레이 구성	Camera and vision based gameplay	Cameraと視線ベースのプレイ構成
+project.epacse.roles.3	특수효과 및 연출	VFX and presentation	VFXと演出
+project.epacse.roles.4	오브젝트 상호작용 구현	Object interaction implementation	オブジェクト操作の実装
+project.epacse.highlights.0	기존 공포와 반대 콘셉트(도망이 아니라 ‘바라보며’ 탈출)	Reverse horror concept escape by watching, not just running	逆転コンセプト 逃げるより見ながら脱出
+project.epacse.highlights.1	일정 거리 진입 시 추격 로직 구현	Chase logic triggered by distance	距離で追跡開始ロジック
+project.epacse.highlights.2	귀신을 바라보면 이동 정지(시야 체크)	Ghost stops when looked at (vision check)	視線で敵が停止する仕組み
+project.epacse.highlights.3	빛을 받으면 이동 정지(라이트 조건)	Ghost stops under light condition	光を受けると停止する条件
+project.epacse.highlights.4	STOVE VR 라이선스 계약 체결	License deal with STOVE VR	STOVE VRとライセンス契約
+project.epacse.videos.play	플레이 영상	Play Video	プレイ動画	试玩视频	試玩影片
+project.epacse.video.0.title	플레이 영상	Play Video	プレイ動画
+project.epacse.code.0.title	Enemy 움직이기	Enemy movement	敵の移動
+project.epacse.code.0.desc	주변 타겟을 탐색하고, 카메라 시야 안에 들어오면 속도를 낮추거나 정지시키는 방식으로 추격을 제어	Search nearby targets and control chasing by slowing or stopping when the target is inside the camera view	周辺ターゲットを探索し 視界内では減速や停止で追跡を制御
+project.epacse.code.0.cap0	타겟 탐색 및 추격 대상 갱신	Target search and chase target update	ターゲット探索と追跡対象更新
+project.epacse.code.0.cap1	시야 판정으로 이동 가능 여부 제어	Control movement by visibility check	視野判定で移動可否を制御
+project.epacse.code.1.title	Enemy 순간이동	Enemy teleport	敵の瞬間移動
+project.epacse.code.1.desc	보이는 타겟과 포인트를 기준으로 조건을 만족할 때만 순간이동을 수행하도록 필터링	Runs teleport only when conditions are met based on visible targets and points	可視ターゲットとポイント基準で 条件を満たす時のみ瞬間移動
+project.epacse.code.1.cap0	가시 타겟 기반 순간이동 로직	Teleport logic based on visible targets	可視ターゲット基準の瞬間移動
+project.epacse.code.2.title	Enemy 멈추기	Enemy stop	敵の停止
+project.epacse.code.2.desc	특정 트리거에 진입하면 상태 플래그와 컴포넌트 제어로 적을 멈추게 하여 퍼즐 진행을 가능하게 함	Stops the enemy on trigger enter by controlling state flags and components to enable puzzle progress	トリガー侵入で状態フラグとコンポーネント制御により停止し パズル進行を可能にする
+project.epacse.code.2.cap0	트리거 진입 시 정지 처리	Stop handling on trigger enter	トリガー侵入時の停止処理
+project.parallel.title	Parallel	Parallel	Parallel	Parallel
+project.parallel.oneLine	폐교에서 귀신을 피해 열쇠를 찾아 탈출하는 공포 방탈출 게임	A horror escape room game where you find keys and escape ghosts in an abandoned school	廃校で幽霊を避け 鍵を探して脱出するホラー脱出ゲーム	在废弃学校躲避幽灵 寻找钥匙逃脱的恐怖解谜游戏
+project.parallel.team	4명 팀 프로젝트 PM 담당	4 person team project PM role	4人チームプロジェクト PM担当	4人团队项目 负责PM
+
+project.parallel.roles.0	PM 일정 관리 업무 분배 커뮤니케이션	PM schedule task assignment communication	PM スケジュール管理 タスク割り振り コミュニケーション	PM 日程管理 任务分配 沟通协调
+project.parallel.roles.1	기획 공포 연출 흐름 및 플레이 설계	Planning horror pacing and gameplay design	企画 ホラー演出の流れとプレイ設計	策划 恐怖演出流程与玩法设计
+project.parallel.roles.2	개발 인게임 UI 및 핵심 기능 구현	Development in game UI and core features	開発 ゲーム内UIと主要機能実装	开发 游戏内UI与核心功能实现
+
+project.parallel.highlights.0	폐교 방탈출 공포 컨셉의 스테이지 플레이 구성	Built stage play for an abandoned school horror escape concept	廃校ホラー脱出コンセプトのステージ構成	构建废校恐怖逃脱概念的关卡流程
+project.parallel.highlights.1	PlayerPrefs로 귀신 정보 노출 상태 저장 중복 노출 방지	Prevented repeated ghost info by saving state with PlayerPrefs	PlayerPrefsで幽霊情報の表示状態を保存し 重複表示を防止	用PlayerPrefs保存幽灵信息展示状态 防止重复弹窗
+project.parallel.highlights.2	조이스틱 이동과 회전 입력을 분리해 모바일 조작 안정화	Stabilized mobile controls by separating joystick movement and rotation input	移動と回転入力を分離して操作性を安定化	将移动与旋转输入分离 使操作更稳定
+project.parallel.highlights.3	카메라 촬영 시 점멸 효과와 범위 판정으로 귀신 정지 구현	Implemented flash and view checks to freeze ghosts on capture	フラッシュと範囲判定で幽霊停止を実装	实现闪光与范围判定 使幽灵停滞
+project.parallel.highlights.4	촬영 스크린샷 저장 및 엔딩 갤러리 노출	UI for saving screenshots and showing an ending gallery	スクショ保存とエンディングギャラリー表示	保存截图并在结局展示相册
+
+project.parallel.code.0.title	귀신 정보 표시 UI	Ghost info UI	幽霊情報UI	幽灵信息UI
+project.parallel.code.0.desc	일정 거리 내 접근 시 귀신 정보 안내를 보여주고 확인 상태를 저장해 반복 노출을 방지했습니다	Showed ghost info when nearby and saved state to avoid repeated prompts	近距離で情報を表示し 状態保存で重複表示を防止しました	靠近时显示信息 并保存状态避免重复弹窗
+
+project.parallel.code.1.title	조이스틱 이동과 회전 분리	Joystick move and rotate separation	ジョイスティック移動と回転分離	摇杆移动与旋转分离
+project.parallel.code.1.desc	이동 입력과 회전 입력을 분리 처리해 터치 상황에서도 조작이 흔들리지 않게 구성했습니다	Handled movement and rotation separately to keep controls stable during touch interactions	移動と回転を分離して タッチ中も安定した操作にしました	将移动与旋转分离处理 触控时也保持稳定
+
+project.parallel.code.2.title	카메라 촬영과 귀신 정지	Camera capture and ghost freeze	カメラ撮影と幽霊停止	相机拍摄与幽灵停滞
+project.parallel.code.2.desc	촬영 시 점멸 효과를 재생하고 카메라 범위 내 귀신을 판정해 일정 시간 정지시키는 흐름을 구현했습니다	Played a flash effect on capture and froze ghosts detected inside camera view for a duration	撮影時にフラッシュ演出を再生し カメラ内の幽霊を一定時間停止させました	拍摄时播放闪光 并判定镜头内幽灵使其停滞一段时间
+
+project.parallel.code.3.title	배터리 자원 시스템	Battery resource system	バッテリー資源システム	电池资源系统
+project.parallel.code.3.desc	촬영 사용량에 따라 배터리가 감소하고 UI가 갱신되도록 연결해 플레이 리스크와 보상을 구성했습니다	Reduced battery on usage and updated UI to create a risk reward loop	使用量に応じてバッテリーを減少させ UI更新でリスクと報酬を構成しました	按使用量消耗电量 并更新UI构建风险收益循环
+
+project.parallel.code.4.title	스크린샷 저장과 엔딩 갤러리	Screenshot save and ending gallery	スクショ保存とエンディングギャラリー	截图保存与结局相册
+project.parallel.code.4.desc	촬영 이미지를 저장하고 스프라이트로 불러와 엔딩에서 갤러리처럼 넘겨볼 수 있게 구성했습니다	Saved captured images and loaded them as sprites to browse like a gallery at the ending	撮影画像を保存し スプライトとして読み込み エンディングでギャラリー閲覧できるようにしました	保存拍摄图并以Sprite加载 在结局可像相册一样浏览
+
+project.parallel.code.5.title	스크롤 스냅 UI	Scroll snap UI	スクロールスナップUI	吸附滚动UI
+project.parallel.code.5.desc	인벤토리와 리스트 UI에서 스크롤이 아이템 단위로 정렬되도록 스냅 동작을 구현했습니다	Implemented snapping so scroll aligns to item steps in inventory and list UI	インベントリとリストUIで アイテム単位に揃うスナップ動作を実装しました	在背包与列表中实现按条目对齐的吸附滚动
+detail.videos	영상	Videos	動画	视频	影片

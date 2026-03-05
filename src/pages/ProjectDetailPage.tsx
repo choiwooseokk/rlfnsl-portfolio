@@ -9,7 +9,7 @@ function GetCategoryKey(PublicCategory: ProjectCategory) {
   return "category.content";
 }
 
-type DetailTab = "info" | "screens" | "code";
+type DetailTab = "info" | "videos" | "screens" | "code";
 
 export default function ProjectDetailPage() {
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ export default function ProjectDetailPage() {
   const PublicHasVideos = (PublicProject.videos?.length ?? 0) > 0;
 
   const PublicHasScreens = (PublicProject.screenshots?.length ?? 0) > 0;
-  
+
   const PublicHasSource =
     PublicProject.sourceCode?.enabled === true &&
     (PublicProject.sourceCode.blocks?.some((PublicBlock) => {
@@ -51,17 +51,17 @@ export default function ProjectDetailPage() {
       return _hasImages || _hasText;
     }) ?? false);
 
-  const PublicHasInfoTab =
-    PublicHasTeam || PublicHasEnv || PublicHasTags || PublicHasRoles || PublicHasHighlights || PublicHasLinks || PublicHasVideos;
+  const PublicHasInfoTab = PublicHasTeam || PublicHasEnv || PublicHasTags || PublicHasRoles || PublicHasHighlights || PublicHasLinks;
 
   const PublicTabs = useMemo(() => {
     const _tabs: Array<{ id: DetailTab; label: string; visible: boolean }> = [
       { id: "info", label: t("detail.info"), visible: PublicHasInfoTab },
+      { id: "videos", label: t("detail.videos"), visible: PublicHasVideos },
       { id: "screens", label: t("detail.screenshots"), visible: PublicHasScreens },
       { id: "code", label: t("badge.source"), visible: PublicHasSource },
     ];
     return _tabs.filter((_t) => _t.visible);
-  }, [t, PublicHasInfoTab, PublicHasScreens, PublicHasSource]);
+  }, [t, PublicHasInfoTab, PublicHasVideos, PublicHasScreens, PublicHasSource]);
 
   const [PublicActiveTab, SetPublicActiveTab] = useState<DetailTab>(PublicTabs[0]?.id ?? "info");
 
@@ -181,47 +181,68 @@ export default function ProjectDetailPage() {
                   </div>
                 </section>
               ) : null}
-
-              {PublicHasVideos ? (
-                <section className="detailCard">
-                  <h2 className="detailH2">{t("detail.videos")}</h2>
-
-                  <div className="detailLinks">
-                    {PublicProject.videos!.map((_v, _i) => {
-                      if (_v.kind === "external") {
-                        return (
-                          <a key={`${_v.url}-${_i}`} className="detailLinkBtn" href={_v.url} target="_blank" rel="noreferrer">
-                            {t(_v.labelKey, { defaultValue: _v.labelKey })}
-                          </a>
-                        );
-                      }
-
-                      return (
-                        <div key={`${_v.src}-${_i}`} className="detailVideo">
-                          <div className="detailVideoTitle">{t(_v.labelKey, { defaultValue: _v.labelKey })}</div>
-
-                          <div
-                            className="detailVideoFrame"
-                            style={{
-                              backgroundImage: _v.poster ? `url(${_v.poster})` : undefined,
-                            }}
-                          >
-                            <video
-                              className="detailVideoPlayer"
-                              controls
-                              playsInline
-                              preload="metadata"
-                              src={_v.src}
-                              poster={_v.poster}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              ) : null}
             </>
+          ) : null}
+
+          {PublicActiveTab === "videos" && PublicHasVideos ? (
+            <section className="detailCard detailCardFull">
+              <h2 className="detailH2">{t("detail.videos")}</h2>
+
+              <div className="detailLinks">
+                {PublicProject.videos!.map((PublicVideo, _i) => {
+                  if (PublicVideo.kind === "youtube") {
+                    const _start = PublicVideo.startSeconds ? `?start=${PublicVideo.startSeconds}` : "";
+                    const _src = `https://www.youtube.com/embed/${PublicVideo.videoId}${_start}`;
+
+                    return (
+                      <div key={`${PublicVideo.videoId}-${_i}`} className="detailVideo">
+                        <div className="detailVideoTitle">{t(PublicVideo.labelKey, { defaultValue: PublicVideo.labelKey })}</div>
+                        <div className="detailVideoFrame">
+                          <iframe
+                            className="detailVideoIframe"
+                            src={_src}
+                            title={t(PublicVideo.labelKey, { defaultValue: PublicVideo.labelKey })}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (PublicVideo.kind === "external") {
+                    return (
+                      <a
+                        key={`${PublicVideo.url}-${_i}`}
+                        className="detailLinkBtn"
+                        href={PublicVideo.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t(PublicVideo.labelKey, { defaultValue: PublicVideo.labelKey })}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <div key={`${PublicVideo.src}-${_i}`} className="detailVideo">
+                      <div className="detailVideoTitle">{t(PublicVideo.labelKey, { defaultValue: PublicVideo.labelKey })}</div>
+                      <div className="detailVideoFrame">
+                        <video
+                          className="detailVideoPlayer"
+                          controls
+                          playsInline
+                          preload="metadata"
+                          src={PublicVideo.src}
+                          poster={PublicVideo.poster}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
           ) : null}
 
           {PublicActiveTab === "screens" && PublicHasScreens ? (

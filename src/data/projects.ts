@@ -7,7 +7,8 @@ export type ProjectLink = {
 
 export type ProjectVideo =
   | { kind: "external"; labelKey: string; url: string }
-  | { kind: "local"; labelKey: string; src: string; poster?: string };
+  | { kind: "local"; labelKey: string; src: string; poster?: string }
+  | { kind: "youtube"; labelKey: string; videoId: string; startSeconds?: number };
 
 export type ProjectCodeImageItem = {
   src: string;
@@ -120,9 +121,45 @@ function privateNormalizeProject(_project: Project): Project {
   };
 }
 
+function privateParseYearMonth(_text: string): number {
+  const _m = _text.trim().match(/^(\d{4})(?:\.(\d{1,2}))?$/);
+  if (!_m) return Number.NEGATIVE_INFINITY;
+
+  const _year = Number(_m[1]);
+  const _month = _m[2] ? Number(_m[2]) : 0;
+
+  if (!Number.isFinite(_year)) return Number.NEGATIVE_INFINITY;
+  if (_month < 0 || _month > 12) return Number.NEGATIVE_INFINITY;
+
+  return _year * 100 + _month;
+}
+
+function privateGetProjectSortKey(_project: Project): number {
+  const _period = _project.period?.trim();
+  if (!_period) return Number.NEGATIVE_INFINITY;
+
+  const _parts = _period.split("~").map((_p) => _p.trim());
+  if (_parts.length === 1) return privateParseYearMonth(_parts[0]);
+
+  const _end = _parts[_parts.length - 1];
+  const _start = _parts[0];
+
+  const _endKey = privateParseYearMonth(_end);
+  if (_endKey !== Number.NEGATIVE_INFINITY) return _endKey;
+
+  return privateParseYearMonth(_start);
+}
+
 export const PROJECTS: Project[] = Object.values(PRIVATE_PROJECT_MODULES)
   .map((_m) => privateNormalizeProject(_m.default))
-  .sort((_a, _b) => _a.id.localeCompare(_b.id));
+  .sort((_a, _b) => {
+    const _aKey = privateGetProjectSortKey(_a);
+    const _bKey = privateGetProjectSortKey(_b);
+
+    if (_aKey !== _bKey) return _bKey - _aKey;
+
+    return _a.id.localeCompare(_b.id);
+  });
 
 export function FindProjectById(_id: string): Project | undefined {
   return PROJECTS.find((_p) => _p.id === _id);
