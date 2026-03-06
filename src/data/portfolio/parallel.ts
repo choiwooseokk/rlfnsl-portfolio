@@ -34,7 +34,7 @@ const PUBLIC_PROJECT: Project = {
   oneLineKey: "project.parallel.oneLine",
 
   category: "게임",
-  period: "2021.03.14 ~ 2021.07.29",
+  period: "2021.03 ~ 2021.07",
 
   tags: ["Unity", "Mobile", "Horror", "EscapeRoom", "Joystick", "Camera", "Screenshot", "PlayerPrefs", "PM"],
 
